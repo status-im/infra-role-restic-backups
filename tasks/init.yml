@@ -4,7 +4,6 @@
     path: '{{ restic_repo_path }}'
     owner: '{{ restic_user_name }}'
     group: '{{ restic_user_name }}'
-    groups: '{{ restic_user_groups }}'
     state: 'directory'
     mode: 0700
 
