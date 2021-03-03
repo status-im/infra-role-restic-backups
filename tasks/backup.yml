@@ -1,0 +1,16 @@
+---
+- name: 'Create timer for backup: {{ backup.name }}'
+  include_role: name=systemd-timer
+  vars:
+    systemd_timer_name: 'backup-{{ backup.name }}'
+    systemd_timer_description: 'Backup of {{ backup.name | mandatory }} with Restic'
+    systemd_timer_user: '{{ restic_user_name }}'
+    systemd_timer_work_dir: '{{ restic_repo_path }}'
+    systemd_timer_frequency: '{{ backup.frequency | mandatory }}'
+    systemd_timer_timeout_sec: '{{ backup.timeout | default(60) }}'
+    systemd_timer_start_on_creation: false
+    systemd_timer_script_path: '{{ restic_binary_path }}'
+    systemd_timer_script_args: 'backup {{ backup.path | mandatory }}'
+    systemd_timer_environment:
+      RESTIC_REPOSITORY: '{{ restic_repo_path }}'
+      RESTIC_PASSWORD_FILE: '{{ restic_repo_pass_file }}'
