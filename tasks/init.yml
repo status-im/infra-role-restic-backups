@@ -1,0 +1,18 @@
+---
+- name: Make backup user owner of repo
+  file:
+    path: '{{ restic_repo_path }}'
+    owner: '{{ restic_user_name }}'
+    group: '{{ restic_user_name }}'
+    groups: '{{ restic_user_groups }}'
+    state: 'directory'
+    mode: 0700
+
+- name: Initialize the Restic repo
+  command:
+    cmd: 'restic init'
+    creates: '{{ restic_repo_path }}/snapshots'
+  become_user: '{{ restic_user_name }}'
+  environment:
+    RESTIC_REPOSITORY: '{{ restic_repo_path }}'
+    RESTIC_PASSWORD_FILE: '{{ restic_repo_pass_file }}'

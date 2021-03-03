@@ -1,0 +1,22 @@
+---
+# Location of backups
+restic_repo_path: '/var/backups/restic'
+# This password encrypts the repository
+restic_repo_pass: ~
+restic_repo_pass_file: '{{ restic_user_home }}/.restic_pass'
+
+# User to run backups as
+restic_user_name: 'restic'
+restic_user_uid: 9001
+restic_user_home: '/home/restic'
+restic_user_groups: []
+
+# SSH/SFTP Access
+restic_ssh_public_key: ~
+
+# https://github.com/restic/restic/releases/v0.12.0
+restic_version: '0.12.0'
+restic_bz2: 'restic_{{ restic_version }}_linux_amd64.bz2'
+restic_bz2_url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/{{ restic_bz2 }}'
+restic_bz2_sha256: '63d13d53834ea8aa4d461f0bfe32a89c70ec47e239b91f029ed10bd88b8f4b80'
+restic_binary_path: '/usr/local/bin/restic'

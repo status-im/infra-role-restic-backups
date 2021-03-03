@@ -1,0 +1,38 @@
+---
+- name: Create backup group
+  group:
+    name: '{{ restic_user_name }}'
+    gid: '{{ restic_user_uid }}'
+
+- name: Create backup user
+  user:
+    name: '{{ restic_user_name }}'
+    group: '{{ restic_user_name }}'
+    uid: '{{ restic_user_uid }}'
+    create_home: true
+    shell: '/bin/bash'
+
+- name: Create password file
+  copy:
+    dest: '{{ restic_repo_pass_file }}'
+    content: '{{ restic_repo_pass | mandatory }}'
+    owner: '{{ restic_user_name }}'
+    group: '{{ restic_user_name }}'
+    mode: 0600
+
+- name: Create ~/.ssh directory
+  file:
+    dest: '{{ restic_user_home }}/.ssh'
+    owner: '{{ restic_user_name }}'
+    group: '{{ restic_user_name }}'
+    state: 'directory'
+    mode: 0700
+
+# Limit SSH access to just SFTP
+- name: Create authorized_keys file
+  copy:
+    dest: '{{ restic_user_home }}/.ssh/authorized_keys'
+    content: 'command="/usr/lib/openssh/sftp-server" {{ restic_ssh_public_key }}'
+    owner: '{{ restic_user_name }}'
+    group: '{{ restic_user_name }}'
+    mode: 0640

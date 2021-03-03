@@ -1,0 +1,42 @@
+---
+- name: Download Server archive
+  get_url:
+    url: '{{ restic_server_tarball_url }}'
+    dest: '/tmp/{{ restic_server_tarball }}'
+    checksum: 'sha256:{{ restic_server_tarball_sha256 }}'
+    mode: 0644
+
+- name: Unpack Server archive
+  unarchive: 
+    src: '/tmp/{{ restic_server_tarball }}'
+    dest: '/tmp'
+    creates: '/tmp/rest-server'
+    remote_src: true
+    extra_opts:
+      - '--wildcards'
+      - '--strip=1'
+      - '*/rest-server'
+
+- name: Move Server binary
+  command: 'mv /tmp/rest-server {{ restic_server_binary_path }}'
+
+- name: Download Restic archive
+  get_url:
+    url: '{{ restic_bz2_url }}'
+    dest: '/tmp/{{ restic_bz2 }}'
+    checksum: 'sha256:{{ restic_bz2_sha256 }}'
+    mode: 0644
+
+- name: Unpack Restic archive
+  shell: bzip2 -dc '/tmp/{{ restic_bz2 }}' > '{{ restic_binary_path }}'
+
+- name: Adjust binary permissions
+  file:
+    path: '{{ restic_binary_path }}'
+    mode: 0755
+
+- name: Create restic wrapper
+  template:
+    src: 'restic.sh.j2'
+    dest: '{{ restic_user_home }}/restic.sh'
+    mode: 0750
