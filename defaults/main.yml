@@ -24,6 +24,7 @@ restic_binary_path: '/usr/local/bin/restic'
 # list of objects that define resources to back up
 restic_backups: []
 #  - name: 'app-xyz-postgres'
+#    tags: ['postgres']
 #    path: '/docker/app-xyz/db'
 #    frequency: 'daily'
 #    timeout: 120
