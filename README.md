@@ -14,6 +14,7 @@ restic_backups:
   - name: 'app-xyz-postgres'
     tags: ['postgres']
     path: '/docker/app-xyz/db'
+    excludes: ['^postmaster.pid$']
     frequency: 'daily'
     timeout: 120
 ```

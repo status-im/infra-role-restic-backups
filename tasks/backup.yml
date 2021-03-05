@@ -10,8 +10,12 @@
     systemd_timer_timeout_sec: '{{ backup.timeout | default(restic_backup_default_timeout) }}'
     systemd_timer_start_on_creation: false
     systemd_timer_script_path: '{{ restic_binary_path }}'
-    systemd_timer_script_args: |
-      backup --tag {{ backup.tags | default([]) | join("\n") }} {{ backup.path | mandatory }}
+    systemd_timer_script_args: >-
+      backup --tag {{ backup.tags | default([]) | join("\n") }}
+      {% for exclude in backup.get("excludes", []) %}
+      --exclude '{{ exclude }}'
+      {% endfor %}
+      {{ backup.path | mandatory }}
     systemd_timer_environment:
       RESTIC_REPOSITORY: '{{ restic_repo_path }}'
       RESTIC_PASSWORD_FILE: '{{ restic_repo_pass_file }}'
