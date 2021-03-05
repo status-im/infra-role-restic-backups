@@ -1,8 +1,14 @@
 ---
 # Location of backups
 restic_repo_path: '/var/backups/restic'
-# This password encrypts the repository
-#restic_repo_pass: ~
+# This password encrypts the repository repo pass.
+#restic_repo_master_pass:
+# We generate password using the hostname.
+# Should give you the same password on the same host.
+restic_repo_pass: >-
+  {{ restic_repo_master_pass | mandatory
+  | password_hash('sha512', 65534 | random(seed=inventory_hostname)
+  | string) }}
 restic_repo_pass_file: '{{ restic_user_home }}/.restic_pass'
 
 # User to run backups as

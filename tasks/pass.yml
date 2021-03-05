@@ -1,0 +1,48 @@
+---
+- name: Check if password file exists
+  stat:
+    path: '{{ restic_repo_pass_file }}'
+  register: restic_pass_file_stat
+
+- name: Read current password file
+  slurp:
+    path: '{{ restic_repo_pass_file }}'
+  register: restic_pass_file_raw
+  when: restic_pass_file_stat.stat.exists
+
+- name: Decode password from file
+  set_fact:
+    restic_repo_pass_old: '{{ restic_pass_file_raw.content | b64decode | trim }}'
+  when: restic_pass_file_stat.stat.exists
+
+- name: Check if password file has changed
+  fail:
+    msg: |
+      The password has changed! This should not happen!
+      This can be caused by hostname change.
+      You might have to re-initialize the repository.
+  when: |
+    restic_pass_file_stat.stat.exists
+    and restic_repo_pass_old != restic_repo_pass
+
+- name: Create password file
+  copy:
+    dest: '{{ restic_repo_pass_file }}'
+    content: '{{ restic_repo_pass | mandatory }}'
+    owner: '{{ restic_user_name }}'
+    group: '{{ restic_user_name }}'
+    mode: 0600
+    # THIS IS VERY IMPORTANT IN CASE OF PASSWORD CHANGE
+    backup: true
+  register: restic_pass_file_copy
+
+# To simplify use with `sudo -iu restic ...`
+- name: Create bashrc file
+  copy:
+    dest: '{{ restic_user_home }}/.bashrc'
+    content: |
+      export RESTIC_REPOSITORY='{{ restic_repo_path }}'
+      export RESTIC_PASSWORD_FILE='{{ restic_repo_pass_file }}'
+    owner: '{{ restic_user_name }}'
+    group: '{{ restic_user_name }}'
+    mode: 0600

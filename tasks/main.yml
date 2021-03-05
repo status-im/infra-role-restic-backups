@@ -1,6 +1,7 @@
 ---
 - import_tasks: install.yml
 - import_tasks: user.yml
+- import_tasks: pass.yml
 - import_tasks: init.yml
 - include_tasks: ./backup.yml
   with_items: '{{ restic_backups }}'

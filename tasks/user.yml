@@ -14,24 +14,6 @@
     create_home: true
     shell: '/bin/bash'
 
-- name: Create password file
-  copy:
-    dest: '{{ restic_repo_pass_file }}'
-    content: '{{ restic_repo_pass | mandatory }}'
-    owner: '{{ restic_user_name }}'
-    group: '{{ restic_user_name }}'
-    mode: 0600
-
-- name: Create bashrc file
-  copy:
-    dest: '{{ restic_user_home }}/.bashrc'
-    content: |
-      export RESTIC_REPOSITORY='{{ restic_repo_path }}'
-      export RESTIC_PASSWORD_FILE='{{ restic_repo_pass_file }}'
-    owner: '{{ restic_user_name }}'
-    group: '{{ restic_user_name }}'
-    mode: 0600
-
 - name: Create ~/.ssh directory
   file:
     dest: '{{ restic_user_home }}/.ssh'
