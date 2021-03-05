@@ -1,0 +1,16 @@
+---
+- name: 'Create Restic backup pruning timer'
+  include_role: name=systemd-timer
+  vars:
+    systemd_timer_name: 'restic-pruning'
+    systemd_timer_description: 'Pruning of old Restic backups'
+    systemd_timer_user: '{{ restic_user_name }}'
+    systemd_timer_work_dir: '{{ restic_repo_path }}'
+    systemd_timer_frequency: '{{ restic_pruning_frequency }}'
+    systemd_timer_timeout_sec: '{{ restic_pruning_timeout }}'
+    systemd_timer_start_on_creation: false
+    systemd_timer_script_path: '{{ restic_binary_path }}'
+    systemd_timer_script_args: 'forget -c --prune --keep-last {{ restic_pruning_retention }}'
+    systemd_timer_environment:
+      RESTIC_REPOSITORY: '{{ restic_repo_path }}'
+      RESTIC_PASSWORD_FILE: '{{ restic_repo_pass_file }}'

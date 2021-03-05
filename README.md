@@ -33,6 +33,12 @@ cd7c53ee  2021-03-03 18:48:42  node-01.example.org  mongodb     /docker/wekan/db
 ```
 The `-i` flag sources `/home/restic/.bashrc` which holds the repo settings.
 
+# Pruning
+
+By default a timer runs daily which cleans up backups to keep only the most recent 30.
+
+You can modify this by setting `restic_pruning_retention`.
+
 # Security
 
 The repository is encrypted using a password derived from the Resitc master password hashed with sha512 using the hostname as salt:

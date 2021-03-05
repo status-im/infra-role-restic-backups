@@ -11,6 +11,12 @@ restic_repo_pass: >-
   | string) }}
 restic_repo_pass_file: '{{ restic_user_home }}/.restic_pass'
 
+# Maximum number of backups to keep for each type.
+restic_pruning_enabled: true
+restic_pruning_retention: 30
+restic_pruning_frequency: 'daily'
+restic_pruning_timeout: 60
+
 # User to run backups as
 restic_user_name: 'restic'
 restic_user_uid: 9001
