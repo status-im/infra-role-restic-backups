@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+function is-active() { systemctl is-active $@ > /dev/null; }
+function is-failed() { systemctl is-failed $@ > /dev/null; }
+function list-timer() { systemctl -q -all list-timers $@; }
+function status() { systemctl -q status $@; }
+
+NAME="backup-{{ backup.name }}"
+
+TIMER_STATUS=$(is-active ${NAME}.timer && echo "ACTIVE" || echo "DISABLED")
+TIMER_HEALTH=$(is-failed ${NAME}.timer && echo "BROKEN" || echo "HEALTHY")
+SERVICE_HEALTH=$(is-failed ${NAME}.service && echo "FAILED" || echo "RUNNING")
+
+echo "${NAME}.timer: ${TIMER_STATUS}, ${TIMER_HEALTH}, and ${SERVICE_HEALTH}"
+
+if [[ ${TIMER_STATUS} != "ACTIVE" ]] ||
+   [[ "${TIMER_HEALTH}" != "HEALTHY" ]] || 
+   [[ "${SERVICE_HEALTH}" != "RUNNING" ]] ;then
+    echo
+    list-timer "${NAME}.timer"
+    echo
+    status "${NAME}.service"
+    exit 2
+fi

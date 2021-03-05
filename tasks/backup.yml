@@ -15,3 +15,28 @@
     systemd_timer_environment:
       RESTIC_REPOSITORY: '{{ restic_repo_path }}'
       RESTIC_PASSWORD_FILE: '{{ restic_repo_pass_file }}'
+
+- name: Create backup checks script
+  template:
+    src: 'check.sh.j2'
+    dest: '/usr/local/bin/check-restic-{{ backup.name }}'
+    mode: 0755
+
+- name: Create Consul service definition
+  include_role: name=consul-service
+  vars:
+    consul_config_name: 'restic_backup_{{ backup.name }}'
+    consul_services:
+      - id: 'restic-backup-{{ backup.name }}'
+        name: 'restic-backup'
+        tags: ['backup', 'restic']
+        address: '{{ ansible_local.tinc.vpn_ip }}'
+        meta:
+          backup_name: '{{ backup.name }}'
+          backup_path: '{{ backup.path }}'
+          backup_frequency: '{{ backup.frequency }}'
+        checks:
+          - id: 'restic-backup-check-{{ backup.name }}'
+            name: 'Restic Backup Check'
+            type: 'script'
+            script: '/usr/local/bin/check-restic-{{ backup.name }}'
