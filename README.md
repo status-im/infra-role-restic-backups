@@ -42,12 +42,12 @@ You can modify this by setting `restic_pruning_retention`.
 
 # Security
 
-The repository is encrypted using a password derived from the Resitc master password hashed with sha512 using the hostname as salt:
+The repository is encrypted using a password derived from the Resitc master password hashed with SHA512 using a slice of SHA1 of the hostname as salt:
 ```yaml
 restic_repo_pass: >
   {{ restic_repo_master_pass | mandatory
-  | password_hash('sha512', 65534 | random(seed=inventory_hostname)
-  | string) }}
+  | password_hash('sha512', (inventory_hostname|hash('sha1'))[0:16])
+  | string }}
 ```
 This way the password remains deterministic based on hostname, but is different for each host.
 
