@@ -36,8 +36,10 @@
         tags: ['backup', 'restic']
         address: '{{ ansible_local.tinc.vpn_ip }}'
         meta:
+          backup_repo: '{{ restic_repo_path }}'
           backup_name: '{{ backup.name }}'
           backup_path: '{{ backup.path }}'
+          backup_tags: '{{ backup.tags | join(",") }}'
           backup_frequency: '{{ backup.frequency }}'
         checks:
           - id: 'restic-backup-check-{{ backup.name }}'
