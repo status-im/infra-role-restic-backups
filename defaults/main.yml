@@ -42,7 +42,9 @@ restic_backup_default_timeout: 120
 restic_backups: []
 #  - name: 'app-xyz-postgres'
 #    tags: ['postgres']
-#    path: '/docker/app-xyz/db'
+#    path: '/docker/app-xyz/db/backup'
 #    excludes: ['logs']
+#    requires: 'dump-xyz-db.service'
+#    after: 'dump-xyz-db.service'
 #    frequency: 'daily'
 #    timeout: 120

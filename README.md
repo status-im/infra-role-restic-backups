@@ -12,9 +12,11 @@ restic_ssh_public_key: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDA6mu...'
 # Configuration of individual backups
 restic_backups:
   - name: 'app-xyz-postgres'
-    tags: ['postgres']
-    path: '/docker/app-xyz/db'
+    tags: ['pgdumpdir']
+    path: '/docker/app-xyz/db/backup'
     excludes: ['^postmaster.pid$']
+    requires: 'dump-xyz-db.service'
+    after: 'dump-xyz-db.service'
     frequency: 'daily'
     timeout: 120
 ```
