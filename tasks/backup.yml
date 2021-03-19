@@ -8,8 +8,8 @@
     systemd_timer_work_dir: '{{ restic_repo_path }}'
     systemd_timer_frequency: '{{ backup.frequency | default(restic_backup_default_frequency) }}'
     systemd_timer_timeout_sec: '{{ backup.timeout | default(restic_backup_default_timeout) }}'
-    systemd_timer_requires_extra: '{{ backup.requires | default([]) }}'
-    systemd_timer_after_extra: '{{ backup.after | default([]) }}'
+    systemd_timer_requires_extra: '{{ backup.requires | default(None) }}'
+    systemd_timer_after_extra: '{{ backup.after | default(None) }}'
     systemd_timer_start_on_creation: false
     systemd_timer_script_path: '{{ restic_binary_path }}'
     systemd_timer_script_args: >-
