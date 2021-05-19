@@ -36,7 +36,7 @@
       - id: 'restic-backup-{{ backup.name }}'
         name: 'restic-backup'
         tags: ['backup', 'restic']
-        address: '{{ ansible_local.tinc.vpn_ip }}'
+        address: '{{ ansible_local.wireguard.vpn_ip }}'
         meta:
           backup_repo: '{{ restic_repo_path }}'
           backup_name: '{{ backup.name }}'
