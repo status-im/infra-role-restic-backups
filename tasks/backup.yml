@@ -5,12 +5,14 @@
     systemd_timer_name: 'backup-{{ backup.name | mandatory }}'
     systemd_timer_description: 'Backup of {{ backup.name | mandatory }} with Restic'
     systemd_timer_user: '{{ restic_user_name }}'
-    systemd_timer_work_dir: '{{ restic_repo_path }}'
     systemd_timer_frequency: '{{ backup.frequency | default(restic_backup_default_frequency) }}'
     systemd_timer_timeout_sec: '{{ backup.timeout | default(restic_backup_default_timeout) }}'
     systemd_timer_requires_extra: '{{ backup.requires | default(None) }}'
     systemd_timer_after_extra: '{{ backup.after | default(None) }}'
     systemd_timer_start_on_creation: false
+
+    # Scipt Configuration
+    systemd_timer_work_dir: '{{ restic_repo_path }}'
     systemd_timer_script_path: '{{ restic_binary_path }}'
     systemd_timer_script_args: >-
       backup --tag {{ backup.tags | default([]) | join("\n") }}
@@ -22,29 +24,14 @@
       RESTIC_REPOSITORY: '{{ restic_repo_path }}'
       RESTIC_PASSWORD_FILE: '{{ restic_repo_pass_file }}'
 
-- name: Create backup checks script
-  template:
-    src: 'check.sh.j2'
-    dest: '/usr/local/bin/check-restic-{{ backup.name }}'
-    mode: 0755
-
-- name: Create Consul service definition
-  include_role: name=consul-service
-  vars:
-    consul_config_name: 'restic_backup_{{ backup.name }}'
-    consul_services:
-      - id: 'restic-backup-{{ backup.name }}'
-        name: 'restic-backup'
-        tags: ['backup', 'restic']
-        address: '{{ ansible_local.wireguard.vpn_ip }}'
-        meta:
-          backup_repo: '{{ restic_repo_path }}'
-          backup_name: '{{ backup.name }}'
-          backup_path: '{{ backup.path }}'
-          backup_tags: '{{ backup.tags | join(",") }}'
-          backup_frequency: '{{ backup.frequency }}'
-        checks:
-          - id: 'restic-backup-check-{{ backup.name }}'
-            name: 'Restic Backup Check'
-            type: 'script'
-            script: '/usr/local/bin/check-restic-{{ backup.name }}'
+    # Consul Definition & Check
+    systemd_timer_consul_enabled: true
+    systemd_timer_consul_service_id: 'restic-backup-{{ backup.name }}'
+    systemd_timer_consul_service_name: 'restic-backup'
+    systemd_timer_consul_extra_tags: ['backup', 'restic']
+    systemd_timer_consul_meta:
+      backup_repo: '{{ restic_repo_path }}'
+      backup_name: '{{ backup.name }}'
+      backup_path: '{{ backup.path }}'
+      backup_tags: '{{ backup.tags | join(",") }}'
+      backup_frequency: '{{ backup.frequency }}'
