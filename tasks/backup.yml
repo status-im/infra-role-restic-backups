@@ -25,7 +25,6 @@
       RESTIC_PASSWORD_FILE: '{{ restic_repo_pass_file }}'
 
     # Consul Definition & Check
-    systemd_timer_consul_enabled: true
     systemd_timer_consul_service_id: 'restic-backup-{{ backup.name }}'
     systemd_timer_consul_service_name: 'restic-backup'
     systemd_timer_consul_extra_tags: ['backup', 'restic']
