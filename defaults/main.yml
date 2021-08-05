@@ -28,11 +28,11 @@ restic_user_groups: []
 # SSH/SFTP Access
 #restic_ssh_public_key: ~
 
-# https://github.com/restic/restic/releases/v0.12.0
-restic_version: '0.12.0'
+# https://github.com/restic/restic/releases/v0.12.1
+restic_version: '0.12.1'
 restic_bz2: 'restic_{{ restic_version }}_linux_amd64.bz2'
 restic_bz2_url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/{{ restic_bz2 }}'
-restic_bz2_sha256: '63d13d53834ea8aa4d461f0bfe32a89c70ec47e239b91f029ed10bd88b8f4b80'
+restic_bz2_sha256: '11d6ee35ec73058dae73d31d9cd17fe79661090abeb034ec6e13e3c69a4e7088'
 restic_binary_path: '/usr/local/bin/restic'
 
 # Default values for unset settings in restic_backups objects.
