@@ -14,6 +14,7 @@ restic_backups:
   - name: 'app-xyz-postgres'
     tags: ['pgdumpdir']
     path: '/docker/app-xyz/db/backup'
+    docs: 'https://xyz.app/docs'
     excludes: ['^postmaster.pid$']
     requires: 'dump-xyz-db.service'
     after: 'dump-xyz-db.service'

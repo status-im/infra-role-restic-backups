@@ -38,6 +38,8 @@ restic_binary_path: '/usr/local/bin/restic'
 # Default values for unset settings in restic_backups objects.
 restic_backup_default_frequency: 'daily'
 restic_backup_default_timeout: 120
+# Link for service definition
+restic_backup_default_docs_url: 'https://github.com/status-im/infra-role-restic-backups'
 
 # list of objects that define resources to back up
 restic_backups: []
