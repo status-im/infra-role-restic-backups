@@ -17,7 +17,7 @@ restic_repo_pass_file: '{{ restic_user_home }}/.restic_pass'
 restic_pruning_enabled: true
 restic_pruning_retention: 30
 restic_pruning_frequency: '05:00'
-restic_pruning_timeout: 60
+restic_pruning_timeout: 300
 
 # User to run backups as
 restic_user_name: 'restic'
