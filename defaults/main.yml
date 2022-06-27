@@ -29,10 +29,10 @@ restic_user_groups: []
 #restic_ssh_public_key: ~
 
 # https://github.com/restic/restic/releases/v0.12.1
-restic_version: '0.12.1'
+restic_version: '0.13.1'
 restic_bz2: 'restic_{{ restic_version }}_linux_amd64.bz2'
 restic_bz2_url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/{{ restic_bz2 }}'
-restic_bz2_sha256: '11d6ee35ec73058dae73d31d9cd17fe79661090abeb034ec6e13e3c69a4e7088'
+restic_bz2_sha256: 'a7a82eca050224c9cd070fea1d4208fe92358c5942321d6e01eff84a77839fb8'
 restic_binary_path: '/usr/local/bin/restic'
 
 # Default values for unset settings in restic_backups objects.
