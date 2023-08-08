@@ -51,3 +51,4 @@ restic_backups: []
 #    after: 'dump-xyz-db.service'
 #    frequency: 'daily'
 #    timeout: 120
+#    enabled: true

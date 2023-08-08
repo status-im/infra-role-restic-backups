@@ -20,6 +20,7 @@ restic_backups:
     after: 'dump-xyz-db.service'
     frequency: 'daily'
     timeout: 120
+    enabled: true
 ```
 The `restic_repo_master_pass` is used to generate a per-host password using hostname as a salt.
 

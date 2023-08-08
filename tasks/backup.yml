@@ -9,6 +9,7 @@
     systemd_timer_timeout_sec: '{{ backup.timeout | default(restic_backup_default_timeout) }}'
     systemd_timer_requires_extra: '{{ backup.requires | default(None) }}'
     systemd_timer_after_extra: '{{ backup.after | default(None) }}'
+    systemd_timer_enabled: '{{ backup.enabled | default(True) }}'
     systemd_timer_start_on_creation: false
     systemd_timer_user: '{{ restic_user_name }}'
 
