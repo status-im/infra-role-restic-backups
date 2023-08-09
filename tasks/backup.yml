@@ -31,9 +31,10 @@
     systemd_timer_consul_service_name: 'restic-backup'
     systemd_timer_consul_extra_tags: ['backup', 'restic']
     systemd_timer_consul_meta:
-      backup_repo: '{{ restic_repo_path }}'
-      backup_name: '{{ backup.name }}'
-      backup_docs: '{{ backup.docs | default(restic_backup_default_docs_url) }}'
-      backup_tags: '{{ backup.tags | join(",") }}'
-      backup_path: '{{ backup.path }}'
-      backup_frequency: '{{ backup.frequency }}'
+      backup_repo:      '{{ restic_repo_path }}'
+      backup_name:      '{{ backup.name      | mandatory }}'
+      backup_docs:      '{{ backup.docs      | default(restic_backup_default_docs_url) }}'
+      backup_tags:      '{{ backup.tags      | join(",") }}'
+      backup_path:      '{{ backup.path      | mandatory }}'
+      backup_frequency: '{{ backup.frequency | default(restic_backup_default_frequency) }}'
+      backup_enabled:   '{{ backup.enabled   | default(True) | string }}'
