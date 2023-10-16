@@ -43,6 +43,7 @@
     content: |
       export RESTIC_REPOSITORY='{{ restic_repo_path }}'
       export RESTIC_PASSWORD_FILE='{{ restic_repo_pass_file }}'
+      export RESTIC_CACHE_DIR='{{ restic_cache_path }}'
     owner: '{{ restic_user_name }}'
     group: '{{ restic_user_name }}'
     mode: 0600

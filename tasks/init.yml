@@ -15,3 +15,4 @@
   environment:
     RESTIC_REPOSITORY: '{{ restic_repo_path }}'
     RESTIC_PASSWORD_FILE: '{{ restic_repo_pass_file }}'
+    RESTIC_CACHE_DIR: '{{ restic_cache_path }}'

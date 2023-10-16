@@ -25,6 +25,7 @@
     systemd_timer_environment:
       RESTIC_REPOSITORY: '{{ restic_repo_path }}'
       RESTIC_PASSWORD_FILE: '{{ restic_repo_pass_file }}'
+      RESTIC_CACHE_DIR: '{{ restic_cache_path }}'
 
     # Consul Definition & Check
     systemd_timer_consul_service_id: 'restic-backup-{{ backup.name }}'

@@ -1,6 +1,7 @@
 ---
 # Location of backups
 restic_repo_path: '/var/backups/restic'
+restic_cache_path: '{{ restic_user_home }}/.cache/restic'
 # This password encrypts the repository repo pass.
 #restic_repo_master_pass:
 # We generate password by hashing the master pasword with SHA512
