@@ -22,7 +22,9 @@ restic_backups:
     timeout: 120
     enabled: true
 ```
-The `restic_repo_master_pass` is used to generate a per-host password using hostname as a salt.
+The `restic_repo_master_pass` is used to generate a per-host password using [machine ID](https://man7.org/linux/man-pages/man5/machine-id.5.html) as a salt.
+
+Password changing is disabled by default, but can be enabled with `restic_repo_pass_allow_change: true`.
 
 # Management
 

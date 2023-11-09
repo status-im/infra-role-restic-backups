@@ -1,0 +1,32 @@
+---
+- name: Check if password file exists
+  stat:
+    path: '{{ restic_repo_pass_file }}'
+  register: restic_repo_pass_file_stat
+
+- name: Read current password file
+  slurp:
+    path: '{{ restic_repo_pass_file }}'
+  register: restic_pass_file_raw
+  when: restic_repo_pass_file_stat.stat.exists
+
+- name: Decode password from file
+  set_fact:
+    restic_repo_pass_old: '{{ restic_pass_file_raw.content | b64decode | trim }}'
+  when: restic_repo_pass_file_stat.stat.exists
+
+- name: Check if password file has changed
+  fail:
+    msg: |
+      ERROR: The repo password has changed!
+
+      This should normally not happen. Either:
+
+        - Machine ID has changed.
+        - Master password has changed.
+
+      Set 'restic_repo_pass_allow_change' if necessary.
+  when: |
+    restic_repo_pass_file_stat.stat.exists
+    and not restic_repo_pass_allow_change
+    and restic_repo_pass_old != restic_repo_pass

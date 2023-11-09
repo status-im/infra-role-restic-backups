@@ -1,5 +1,6 @@
 ---
 - import_tasks: install.yml
+- import_tasks: check.yml
 - import_tasks: user.yml
 - import_tasks: pass.yml
 - import_tasks: init.yml
@@ -7,7 +8,7 @@
 - import_tasks: pruning.yml
   when: restic_pruning_enabled
 
-- include_tasks: ./backup.yml
+- include_tasks: backup.yml
   with_items: '{{ restic_backups }}'
   loop_control:
     loop_var: backup

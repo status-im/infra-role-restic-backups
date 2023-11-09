@@ -7,6 +7,16 @@
     state: 'directory'
     mode: 0700
 
+- name: Change password of Restic repo
+  when: restic_repo_pass_old != restic_repo_pass
+  command: |
+    restic key passwd --new-password-file={{ restic_repo_pass_file }}
+  become_user: '{{ restic_user_name }}'
+  environment:
+    RESTIC_REPOSITORY: '{{ restic_repo_path }}'
+    RESTIC_PASSWORD_FILE: '{{ restic_repo_pass_file_copy.backup_file }}'
+    RESTIC_CACHE_DIR: '{{ restic_cache_path }}'
+
 - name: Initialize the Restic repo
   command:
     cmd: 'restic init'
