@@ -5,11 +5,11 @@ restic_cache_path: '{{ restic_user_home }}/.cache/restic'
 # This password encrypts the repository repo pass.
 #restic_repo_master_pass:
 # We generate password by hashing the master pasword with SHA512
-# using a slice of the hostname SHA1 as salt.
+# using a slice of the machine ID as salt.
 # Should give you the same password on the same host.
 restic_repo_pass: >-
   {{ restic_repo_master_pass | mandatory
-  | password_hash('sha512', (inventory_hostname|hash('sha1'))[0:16], rounds=5000)
+  | password_hash('sha512', (ansible_machine_id)[0:16], rounds=5000)
   | string }}
 # If necessary set this to true to allow repo password change.
 restic_repo_pass_allow_change: false
