@@ -8,7 +8,9 @@
     mode: 0700
 
 - name: Change password of Restic repo
-  when: restic_repo_pass_old != restic_repo_pass
+  when: |
+    restic_repo_pass_old is defined and
+    restic_repo_pass_old != restic_repo_pass
   command: |
     restic key passwd --new-password-file={{ restic_repo_pass_file }}
   become_user: '{{ restic_user_name }}'
