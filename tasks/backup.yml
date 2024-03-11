@@ -1,6 +1,6 @@
 ---
 - name: 'Create timer for backup: {{ backup.name }}'
-  include_role: name=systemd-timer
+  include_role: name=infra-role-systemd-timer
   vars:
     systemd_timer_name: 'backup-{{ backup.name | mandatory }}'
     systemd_timer_description: 'Backup of {{ backup.name | mandatory }} with Restic'

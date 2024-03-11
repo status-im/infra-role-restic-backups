@@ -1,6 +1,6 @@
 ---
 - name: 'Create Restic backup pruning timer'
-  include_role: name=systemd-timer
+  include_role: name=infra-role-systemd-timer
   vars:
     systemd_timer_name: 'restic-pruning'
     systemd_timer_description: 'Pruning of old Restic backups'
