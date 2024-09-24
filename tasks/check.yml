@@ -24,6 +24,7 @@
 
         - Machine ID has changed.
         - Master password has changed.
+        - Hashing algorithm settings changed.
 
       Set 'restic_repo_pass_allow_change' if necessary.
   when: |
