@@ -19,6 +19,7 @@ restic_repo_pass_file: '{{ restic_user_home }}/.restic_pass'
 # WARNING: Watch out for clashing with other timers due to lock.
 restic_pruning_enabled: true
 restic_pruning_retention: 30
+restic_pruning_retry_lock: 10m
 restic_pruning_frequency: '23:00'
 restic_pruning_timeout: 300
 

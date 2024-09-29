@@ -9,8 +9,15 @@
     systemd_timer_frequency: '{{ restic_pruning_frequency }}'
     systemd_timer_timeout_sec: '{{ restic_pruning_timeout }}'
     systemd_timer_start_on_creation: false
+    systemd_timer_exec_start_pre:
+      - '{{ restic_binary_path }} unlock'
     systemd_timer_script_path: '{{ restic_binary_path }}'
-    systemd_timer_script_args: 'forget -c --prune --keep-last {{ restic_pruning_retention }}'
+    systemd_timer_script_args: >-
+      forget
+      --prune
+      --compact
+      --retry-lock {{ restic_pruning_retry_lock }}
+      --keep-last {{ restic_pruning_retention }}
     systemd_timer_environment:
       RESTIC_REPOSITORY: '{{ restic_repo_path }}'
       RESTIC_PASSWORD_FILE: '{{ restic_repo_pass_file }}'
