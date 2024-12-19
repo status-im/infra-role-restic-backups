@@ -18,6 +18,8 @@
       --compact
       --retry-lock {{ restic_pruning_retry_lock }}
       --keep-last {{ restic_pruning_retention }}
+    systemd_timer_exec_stop_post:
+      - '{{ restic_binary_path }} prune'
     systemd_timer_environment:
       RESTIC_REPOSITORY: '{{ restic_repo_path }}'
       RESTIC_PASSWORD_FILE: '{{ restic_repo_pass_file }}'
