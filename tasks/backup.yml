@@ -13,7 +13,7 @@
     systemd_timer_start_on_creation: false
     systemd_timer_user: '{{ restic_user_name }}'
 
-    # Scipt Configuration
+    # Script Configuration
     systemd_timer_work_dir: '{{ restic_repo_path }}'
     systemd_timer_script_path: '{{ restic_binary_path }}'
     systemd_timer_script_args: >-

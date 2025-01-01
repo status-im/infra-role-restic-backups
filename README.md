@@ -1,6 +1,6 @@
 # Description
 
-This role deploys [Restic](https://restic.net/) and condigures timed backups.
+This role deploys [Restic](https://restic.net/) and configures timed backups.
 
 # Configuration
 
@@ -48,7 +48,7 @@ You can modify this by setting `restic_pruning_retention`.
 
 # Security
 
-The repository is encrypted using a password derived from the Resitc master password hashed with SHA512 using a slice of SHA1 of the hostname as salt:
+The repository is encrypted using a password derived from the Restic master password hashed with SHA512 using a slice of SHA1 of the hostname as salt:
 ```yaml
 restic_repo_pass: >
   {{ restic_repo_master_pass | mandatory
