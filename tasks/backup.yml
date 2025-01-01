@@ -16,6 +16,7 @@
     # Script Configuration
     systemd_timer_work_dir: '{{ restic_repo_path }}'
     systemd_timer_script_path: '{{ restic_binary_path }}'
+    systemd_timer_exec_start_pre: ['{{ restic_backup_size_check_script }} {{ backup.path | join("") }}']
     systemd_timer_script_args: >-
       backup --tag {{ backup.tags | default([]) | join("\n") }}
       {% for exclude in backup.get("excludes", []) %}

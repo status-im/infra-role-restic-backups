@@ -38,12 +38,16 @@ restic_bz2: 'restic_{{ restic_version }}_linux_amd64.bz2'
 restic_bz2_url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/{{ restic_bz2 }}'
 restic_bz2_sha256: 'bdfaf16fe933136e3057e64e28624f2e0451dbd47e23badb2d37dbb60fdb6a70'
 restic_binary_path: '/usr/local/bin/restic'
+restic_backup_size_check_script: '/usr/local/bin/backup-check-script.sh'
 
 # Default values for unset settings in restic_backups objects.
 restic_backup_default_frequency: 'daily'
 restic_backup_default_timeout: 120
 # Link for service definition
 restic_backup_default_docs_url: 'https://github.com/status-im/infra-role-restic-backups'
+
+# backups should be larger than 2 KB
+backup_size_threshold: 2048
 
 # list of objects that define resources to back up
 restic_backups: []

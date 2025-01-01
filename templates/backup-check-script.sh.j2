@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# vim: ft=sh
+set -e
+
+if [ -z "$1" ]; then
+    echo "Error: Backup directory path required"
+    exit 1
+fi
+
+BACKUP_DIR="$1"
+MIN_SIZE="{{ backup_size_threshold }}"
+
+DIR_SIZE=$(du -bs "$BACKUP_DIR" | cut -f1)
+
+if [ "$DIR_SIZE" -lt "$MIN_SIZE" ]; then
+    echo "Error: Backup directory too small (${DIR_SIZE} bytes), minimum size is ${MIN_DIR_SIZE} bytes"
+    exit 1
+fi
