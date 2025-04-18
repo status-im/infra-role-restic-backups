@@ -2,16 +2,19 @@
 - name: 'Create timer for backup: {{ backup.name }}'
   include_role: name=infra-role-systemd-timer
   vars:
-    systemd_timer_name: 'backup-{{ backup.name | mandatory }}'
-    systemd_timer_description: 'Backup of {{ backup.name | mandatory }} with Restic'
-    systemd_timer_documentation: '{{ backup.docs | default(restic_backup_default_docs_url) }}'
-    systemd_timer_frequency: '{{ backup.frequency | default(restic_backup_default_frequency) }}'
-    systemd_timer_timeout_sec: '{{ backup.timeout | default(restic_backup_default_timeout) }}'
-    systemd_timer_requires_extra: '{{ backup.requires | default(None) }}'
-    systemd_timer_after_extra: '{{ backup.after | default(None) }}'
-    systemd_timer_enabled: '{{ backup.enabled | default(True) }}'
+    systemd_timer_name:             'backup-{{ backup.name | mandatory }}'
+    systemd_timer_description:      'Backup of {{ backup.name | mandatory }} with Restic'
+    systemd_timer_documentation:    '{{ backup.docs            | default(restic_backup_default_docs_url) }}'
+    systemd_timer_frequency:        '{{ backup.frequency       | default(restic_backup_default_frequency) }}'
+    systemd_timer_timeout_sec:      '{{ backup.timeout         | default(restic_backup_default_timeout) }}'
+    systemd_timer_restart:          '{{ backup.restart         | default(restic_backup_default_restart) }}'
+    systemd_timer_restart_delay:    '{{ backup.restart_delay   | default(restic_backup_default_restart_delay) }}'
+    systemd_timer_restart_retries:  '{{ backup.restart_retries | default(restic_backup_default_restart_retries) }}'
+    systemd_timer_requires_extra:   '{{ backup.requires        | default(None) }}'
+    systemd_timer_after_extra:      '{{ backup.after           | default(None) }}'
+    systemd_timer_enabled:          '{{ backup.enabled         | default(True) }}'
+    systemd_timer_user:             '{{ restic_user_name }}'
     systemd_timer_start_on_creation: false
-    systemd_timer_user: '{{ restic_user_name }}'
 
     # Script Configuration
     systemd_timer_work_dir: '{{ restic_repo_path }}'

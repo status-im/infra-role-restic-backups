@@ -43,6 +43,10 @@ restic_backup_size_check_script: '/usr/local/bin/backup-check-script.sh'
 # Default values for unset settings in restic_backups objects.
 restic_backup_default_frequency: 'daily'
 restic_backup_default_timeout: 120
+# Restart options: no, always, on-success, on-failure, on-abnormal, on-abort, on-watchdog
+restic_backup_default_restart: 'on-failure'
+restic_backup_default_restart_delay: 3600 # 1h
+restic_backup_default_restart_retries: 8
 # Link for service definition
 restic_backup_default_docs_url: 'https://github.com/status-im/infra-role-restic-backups'
 
@@ -58,5 +62,8 @@ restic_backups: []
 #    requires: 'dump-xyz-db.service'
 #    after: 'dump-xyz-db.service'
 #    frequency: 'daily'
+#    timeout: 120
+#    restart: 'no'
+#    restart_retries: 3
 #    timeout: 120
 #    enabled: true

@@ -19,6 +19,7 @@ restic_backups:
     requires: 'dump-xyz-db.service'
     after: 'dump-xyz-db.service'
     frequency: 'daily'
+    restart: 'no'
     timeout: 120
     enabled: true
 ```
