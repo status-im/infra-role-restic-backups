@@ -14,10 +14,3 @@
     path: '{{ restic_binary_path }}'
     mode: 0755
 
-- name: Create backup size check script
-  template:
-    src: 'backup-check-script.sh.j2'
-    dest: '{{ restic_backup_size_check_script }}'
-    owner: '{{ restic_user_name }}'
-    group: '{{ restic_user_name }}'
-    mode: 0775
