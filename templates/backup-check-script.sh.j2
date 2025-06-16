@@ -8,11 +8,11 @@ if [ -z "$1" ]; then
 fi
 
 BACKUP_DIR="$1"
-MIN_SIZE="{{ backup_size_threshold }}"
+MIN_SIZE_BYTES="{{ backup_size_threshold_bytes }}"
 
-DIR_SIZE=$(du -bs "$BACKUP_DIR" | cut -f1)
+DIR_SIZE=$(du -bs "${BACKUP_DIR}" | cut -f1)
 
-if [ "$DIR_SIZE" -lt "$MIN_SIZE" ]; then
-    echo "Error: Backup directory too small (${DIR_SIZE} bytes), minimum size is ${MIN_DIR_SIZE} bytes"
+if [ "${DIR_SIZE}" -lt "${MIN_SIZE_BYTES}" ]; then
+    echo "Error: Backup directory too small (${DIR_SIZE} bytes), minimum size is ${MIN_SIZE_BYTES} bytes"
     exit 1
 fi
