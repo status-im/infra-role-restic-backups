@@ -50,6 +50,9 @@ restic_backup_default_restart_retries: 8
 # Link for service definition
 restic_backup_default_docs_url: 'https://github.com/status-im/infra-role-restic-backups'
 
+# Do no create a snapshot if nothing changed.
+backup_skip_if_unchanged: true
+
 # backups should be larger than 512 KB
 backup_size_threshold_bytes: 512000
 

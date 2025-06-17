@@ -22,6 +22,7 @@
     systemd_timer_exec_start_pre: ['{{ restic_backup_size_check_script }} {{ backup.path | join("") }}']
     systemd_timer_script_args: >-
       backup --tag {{ backup.tags | default([]) | join("\n") }}
+      {% if backup_skip_if_unchanged %}--skip-if-unchanged{% endif %}
       {% for exclude in backup.get("excludes", []) %}
       --exclude '{{ exclude }}'
       {% endfor %}
