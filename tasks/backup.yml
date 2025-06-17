@@ -19,7 +19,8 @@
     # Script Configuration
     systemd_timer_work_dir: '{{ restic_repo_path }}'
     systemd_timer_script_path: '{{ restic_binary_path }}'
-    systemd_timer_exec_start_pre: ['{{ restic_backup_size_check_script }} {{ backup.path | join("") }}']
+    systemd_timer_exec_start_pre:
+      - '{{ restic_backup_size_check_script }} {{ backup.path }}'
     systemd_timer_script_args: >-
       backup --tag {{ backup.tags | default([]) | join("\n") }}
       {% if backup_skip_if_unchanged %}--skip-if-unchanged{% endif %}
@@ -27,6 +28,12 @@
       --exclude '{{ exclude }}'
       {% endfor %}
       {{ backup.path | mandatory }}
+    systemd_timer_exec_stop_post:
+      - >-
+        {{ restic_snapshot_check_script }}
+        '--path={{ backup.path }} --host={{ inventory_hostname }} --latest=1'
+        {{ backup.min_bytes | default("") }}
+        {{ backup.min_files | default("") }}
     systemd_timer_environment:
       RESTIC_REPOSITORY: '{{ restic_repo_path }}'
       RESTIC_PASSWORD_FILE: '{{ restic_repo_pass_file }}'

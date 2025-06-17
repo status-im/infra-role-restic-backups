@@ -31,8 +31,16 @@
 
 - name: Create backup size check script
   template:
-    src: 'backup-check-script.sh.j2'
-    dest: '{{ restic_backup_size_check_script }}'
+    src:   'backup-check-script.sh.j2'
+    dest:  '{{ restic_backup_size_check_script }}'
+    owner: '{{ restic_user_name }}'
+    group: '{{ restic_user_name }}'
+    mode: 0775
+
+- name: Create snapshot size check script
+  template:
+    src:   'snapshot-restic-check.sh.j2'
+    dest:  '{{ restic_snapshot_check_script }}'
     owner: '{{ restic_user_name }}'
     group: '{{ restic_user_name }}'
     mode: 0775

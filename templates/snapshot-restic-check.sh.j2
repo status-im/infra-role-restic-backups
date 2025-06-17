@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# vim: ft=sh
+set -e
+
+RESTIC_QUERY_FLAGS="${1:---host=${HOST} --latest=1}"
+SNAPSHOT_JSON=$(restic --json snapshots ${RESTIC_QUERY_FLAGS})
+
+MIN_BYTES="${2:-{{ backup_min_bytes_processed }}}"
+MIN_FILES="${3:-{{ backup_min_files_processed }}}"
+TOTAL_BYTES=$(echo "${SNAPSHOT_JSON}" | jq '.[].summary.total_bytes_processed')
+TOTAL_FILES=$(echo "${SNAPSHOT_JSON}" | jq '.[].summary.total_files_processed')
+
+if [[ "${TOTAL_BYTES}" == *$'\n'* ]]; then
+    echo "ERROR: More than one snapshot discovered, unable to check." >&2
+    exit 1
+fi
+if [[ ${TOTAL_BYTES} -lt ${MIN_BYTES} ]]; then
+    echo "ERROR: Snapshot too small (${TOTAL_BYTES} bytes), minimum size is ${MIN_BYTES} bytes." >&2
+    exit 1
+fi
+if [[ ${TOTAL_FILES} -lt ${MIN_FILES} ]]; then
+    echo "ERROR: Snapshot with not enough files (${TOTAL_FILES}), minimum files is ${MIN_FILES}." >&2
+    exit 1
+fi
+echo "CHECK: No snapshot issues found."

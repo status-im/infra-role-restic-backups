@@ -39,6 +39,7 @@ restic_bz2_url: 'https://github.com/restic/restic/releases/download/v{{ restic_v
 restic_bz2_sha256: 'bdfaf16fe933136e3057e64e28624f2e0451dbd47e23badb2d37dbb60fdb6a70'
 restic_binary_path: '/usr/local/bin/restic'
 restic_backup_size_check_script: '/usr/local/bin/backup-check-script.sh'
+restic_snapshot_check_script: '/usr/local/bin/snapshot-restic-check.sh'
 
 # Default values for unset settings in restic_backups objects.
 restic_backup_default_frequency: 'daily'
@@ -53,8 +54,10 @@ restic_backup_default_docs_url: 'https://github.com/status-im/infra-role-restic-
 # Do no create a snapshot if nothing changed.
 backup_skip_if_unchanged: true
 
-# backups should be larger than 512 KB
-backup_size_threshold_bytes: 512000
+# Backups and snapshots should be larger than 512 KB
+backup_min_bytes_processed: 512000
+# and need to process more than one file
+backup_min_files_processed: 1
 
 # list of objects that define resources to back up
 restic_backups: []
@@ -67,6 +70,9 @@ restic_backups: []
 #    frequency: 'daily'
 #    timeout: 120
 #    restart: 'no'
+#    restart_retries: 3
+#    min_bytes: 200000
+#    min_files: 2
 #    restart_retries: 3
 #    timeout: 120
 #    enabled: true

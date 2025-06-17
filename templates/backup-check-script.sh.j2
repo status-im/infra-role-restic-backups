@@ -2,17 +2,23 @@
 # vim: ft=sh
 set -e
 
-if [ -z "$1" ]; then
-    echo "Error: Backup directory path required"
+BACKUP_DIR="${1}"
+MIN_BYTES="${2:-{{ backup_min_bytes_processed }}}"
+MIN_FILES="${3:-{{ backup_min_files_processed }}}"
+
+if [[ -z "${BACKUP_DIR}" ]]; then
+    echo "ERROR: Backup directory path required"
     exit 1
 fi
+DIR_BYTES=$(du -bs "${BACKUP_DIR}" | cut -f1)
+DIR_FILES=$(find "${BACKUP_DIR}" -type f | wc -l)
 
-BACKUP_DIR="$1"
-MIN_SIZE_BYTES="{{ backup_size_threshold_bytes }}"
-
-DIR_SIZE=$(du -bs "${BACKUP_DIR}" | cut -f1)
-
-if [ "${DIR_SIZE}" -lt "${MIN_SIZE_BYTES}" ]; then
-    echo "Error: Backup directory too small (${DIR_SIZE} bytes), minimum size is ${MIN_SIZE_BYTES} bytes"
+if [[ ${DIR_BYTES} -lt ${MIN_BYTES} ]]; then
+    echo "ERROR: Dir too small (${DIR_BYTES} B), minimum size is ${MIN_SIZE_BYTES} B." >&2
     exit 1
 fi
+if [[ ${DIR_FILES} -lt ${MIN_FILES} ]]; then
+    echo "ERROR: Dir with not enough files (${DIR_FILES}), minimum number is ${MIN_FILES}." >&2
+    exit 1
+fi
+echo "CHECK: No backup dir issues found."
