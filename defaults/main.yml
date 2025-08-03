@@ -32,11 +32,10 @@ restic_user_groups: []
 # SSH/SFTP Access
 #restic_ssh_public_key: ~
 
-# https://github.com/restic/restic/releases/tag/v0.17.1
-restic_version: '0.17.1'
+restic_version: '0.18.0'
 restic_bz2: 'restic_{{ restic_version }}_linux_amd64.bz2'
 restic_bz2_url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/{{ restic_bz2 }}'
-restic_bz2_sha256: 'bdfaf16fe933136e3057e64e28624f2e0451dbd47e23badb2d37dbb60fdb6a70'
+restic_bz2_sha256: '98f6dd8bf5b59058d04bfd8dab58e196cc2a680666ccee90275a3b722374438e'
 restic_binary_path: '/usr/local/bin/restic'
 restic_backup_size_check_script: '/usr/local/bin/backup-check-script.sh'
 restic_snapshot_check_script: '/usr/local/bin/snapshot-restic-check.sh'
