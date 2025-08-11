@@ -27,7 +27,6 @@
     group: '{{ restic_user_name }}'
     state: 'directory'
     mode: 0700
-  when: restic_ssh_public_key is defined
 
 # Limit SSH access to just SFTP
 - name: Create authorized_keys file
@@ -37,4 +36,3 @@
     owner: '{{ restic_user_name }}'
     group: '{{ restic_user_name }}'
     mode: 0640
-  when: restic_ssh_public_key is defined
