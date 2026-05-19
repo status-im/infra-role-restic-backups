@@ -40,6 +40,7 @@
       RESTIC_CACHE_DIR: '{{ restic_cache_path }}'
 
     # Consul Definition & Check
+    systemd_timer_consul_address: '{{ ansible_local.wireguard.address }}'
     systemd_timer_consul_service_id: 'restic-backup-{{ backup.name }}'
     systemd_timer_consul_service_name: 'restic-backup'
     systemd_timer_consul_extra_tags: ['backup', 'restic']
